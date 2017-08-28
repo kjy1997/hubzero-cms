@@ -2,7 +2,7 @@
 /**
  * HUBzero CMS
  *
- * Copyright 2005-2015 HUBzero Foundation, LLC.
+ * Copyright 2005-2017 HUBzero Foundation, LLC.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,70 +25,26 @@
  * HUBzero is a registered trademark of Purdue University.
  *
  * @package   hubzero-cms
- * @copyright Copyright 2005-2015 HUBzero Foundation, LLC.
+ * @author    Jerry Kuang <kuang5@purdue.edu>
+ * @copyright Copyright 2005-2017 HUBzero Foundation, LLC.
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-namespace Components\Projects\Models\Orm;
+// No direct access
+defined('_HZEXEC_') or die();
 
-use Hubzero\Database\Relational;
-
-/**
- * Projects type model
- *
- * @uses  \Hubzero\Database\Relational
- */
-class Type extends Relational
-{
-	/**
-	 * The table namespace
-	 *
-	 * @var  string
-	 **/
-	protected $namespace = 'project';
-
-	/**
-	 * Default order by for model
-	 *
-	 * @var string
-	 */
-	public $orderBy = 'id';
-
-	/**
-	 * Default order direction for select queries
-	 *
-	 * @var  string
-	 */
-	public $orderDir = 'asc';
-
-	/**
-	 * Fields and their validation criteria
-	 *
-	 * @var  array
-	 */
-	protected $rules = array(
-		'type' => 'notempty'
-	);
-
-	/**
-	 * Registry
-	 *
-	 * @var  object
-	 */
-	protected $paramsRegistry = null;
-
-	/**
-	 * Transform params
-	 *
-	 * @return  string
-	 */
-	public function transformParams()
-	{
-		if (!is_object($this->paramsRegistry))
-		{
-			$this->paramsRegistry = new Registry($this->get('params'));
-		}
-
-		return $this->paramsRegistry;
-	}
-}
+?>
+<section class="main section">
+      <div class="grid nobreak">
+		<?php if (Request::getVar('code')) { ?>
+		<br>
+		<p><?php echo Lang::txt('COM_MEMBERS_REDIRECT_ORCID_THANK_YOU', $this->userName); ?></p>
+		<br>
+		<p><?php echo Lang::txt('COM_MEMBERS_REDIRECT_ORCID_YOUR_ORCID'); ?><img src="<?php echo Request::root()?>/core/components/com_members/site/assets/img/orcid_16x16.png" class="logo" width="16" height="16" alt="iD"/> <?php echo Lang::txt('COM_MEMBERS_REDIRECT_ORCID_IS'); ?> <?php echo $this->userORCID; ?></p>
+		<br>
+		<p><?php echo Lang::txt('COM_MEMBERS_REDIRECT_ORCID_INDICATION_MESSAGE'); ?></p>
+		<?php } elseif (Request::getVar('error') && Request::getVar('error_description')) { ?>
+		<p><?php echo Lang::txt('COM_MEMBERS_REDIRECT_ORCID_DENY'); ?><a class="btn" href="https://orcid.org/signin" target="_blank"><?php echo Lang::txt('COM_MEMBERS_REDIRECT_ORCID_SIGN_IN_OR_REGISTER'); ?></a></p>
+		<?php } ?>
+      </div>
+</section>
